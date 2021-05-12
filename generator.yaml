@@ -9,3 +9,9 @@ resources:
         - RepositoryName
     update_operation:
       custom_method_name: customUpdateRepository
+    renames:
+      operations:
+        CreateRepository:
+          input_fields:
+            RepositoryName: Name
+  

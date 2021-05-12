@@ -85,6 +85,9 @@ class TestRepository:
         exists = self.repository_exists(ecr_client, resource_name)
         assert exists
 
+        print("------", resource_data)
+        print("++++++", ref)
+
         # Delete k8s resource
         _, deleted = k8s.delete_custom_resource(ref)
         assert deleted is True
