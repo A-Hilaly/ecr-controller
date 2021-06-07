@@ -49,7 +49,7 @@ func (rm *resourceManager) customUpdateRepository(
 	var err error
 	var updated *resource
 	updated = desired
-	if delta.DifferentAt("ImageScanningConfiguration") {
+	if delta.DifferentAt("ScanConfig") {
 		updated, err = rm.updateImageScanningConfiguration(ctx, updated)
 		if err != nil {
 			return nil, err
@@ -74,13 +74,13 @@ func (rm *resourceManager) updateImageScanningConfiguration(
 	input := &svcsdk.PutImageScanningConfigurationInput{
 		RepositoryName: aws.String(*dspec.Name),
 	}
-	if dspec.ImageScanningConfiguration == nil {
+	if dspec.ScanConfig == nil {
 		// There isn't any "reset" behaviour and the image scanning
 		// configuration field should always be set...
 		input.SetImageScanningConfiguration(&defaultImageScanningConfig)
 	} else {
 		isc := svcsdk.ImageScanningConfiguration{
-			ScanOnPush: dspec.ImageScanningConfiguration.ScanOnPush,
+			ScanOnPush: dspec.ScanConfig.ScanOnPush,
 		}
 		input.SetImageScanningConfiguration(&isc)
 	}

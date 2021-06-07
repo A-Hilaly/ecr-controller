@@ -26,7 +26,7 @@ import (
 	ctrlrt "sigs.k8s.io/controller-runtime"
 	ctrlrtmetrics "sigs.k8s.io/controller-runtime/pkg/metrics"
 
-	svctypes "github.com/aws-controllers-k8s/ecr-controller/apis/v1alpha1"
+	svctypes "github.com/aws-controllers-k8s/ecr-controller/apis/v1alpha2"
 	svcresource "github.com/aws-controllers-k8s/ecr-controller/pkg/resource"
 	ackv1alpha1 "github.com/aws-controllers-k8s/runtime/apis/core/v1alpha1"
 

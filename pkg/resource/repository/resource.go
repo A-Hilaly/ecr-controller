@@ -22,7 +22,7 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8srt "k8s.io/apimachinery/pkg/runtime"
 
-	svcapitypes "github.com/aws-controllers-k8s/ecr-controller/apis/v1alpha1"
+	svcapitypes "github.com/aws-controllers-k8s/ecr-controller/apis/v1alpha2"
 )
 
 // Hack to avoid import errors during build...

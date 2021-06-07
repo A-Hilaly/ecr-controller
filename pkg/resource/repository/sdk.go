@@ -27,7 +27,7 @@ import (
 	corev1 "k8s.io/api/core/v1"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 
-	svcapitypes "github.com/aws-controllers-k8s/ecr-controller/apis/v1alpha1"
+	svcapitypes "github.com/aws-controllers-k8s/ecr-controller/apis/v1alpha2"
 )
 
 // Hack to avoid import errors during build...
@@ -88,9 +88,9 @@ func (rm *resourceManager) sdkFind(
 			if elem.ImageScanningConfiguration.ScanOnPush != nil {
 				f2.ScanOnPush = elem.ImageScanningConfiguration.ScanOnPush
 			}
-			ko.Spec.ImageScanningConfiguration = f2
+			ko.Spec.ScanConfig = f2
 		} else {
-			ko.Spec.ImageScanningConfiguration = nil
+			ko.Spec.ScanConfig = nil
 		}
 		if elem.ImageTagMutability != nil {
 			ko.Spec.ImageTagMutability = elem.ImageTagMutability
@@ -216,10 +216,10 @@ func (rm *resourceManager) newCreateRequestPayload(
 		}
 		res.SetEncryptionConfiguration(f0)
 	}
-	if r.ko.Spec.ImageScanningConfiguration != nil {
+	if r.ko.Spec.ScanConfig != nil {
 		f1 := &svcsdk.ImageScanningConfiguration{}
-		if r.ko.Spec.ImageScanningConfiguration.ScanOnPush != nil {
-			f1.SetScanOnPush(*r.ko.Spec.ImageScanningConfiguration.ScanOnPush)
+		if r.ko.Spec.ScanConfig.ScanOnPush != nil {
+			f1.SetScanOnPush(*r.ko.Spec.ScanConfig.ScanOnPush)
 		}
 		res.SetImageScanningConfiguration(f1)
 	}

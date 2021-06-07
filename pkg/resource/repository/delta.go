@@ -50,17 +50,6 @@ func newResourceDelta(
 			}
 		}
 	}
-	if ackcompare.HasNilDifference(a.ko.Spec.ImageScanningConfiguration, b.ko.Spec.ImageScanningConfiguration) {
-		delta.Add("Spec.ImageScanningConfiguration", a.ko.Spec.ImageScanningConfiguration, b.ko.Spec.ImageScanningConfiguration)
-	} else if a.ko.Spec.ImageScanningConfiguration != nil && b.ko.Spec.ImageScanningConfiguration != nil {
-		if ackcompare.HasNilDifference(a.ko.Spec.ImageScanningConfiguration.ScanOnPush, b.ko.Spec.ImageScanningConfiguration.ScanOnPush) {
-			delta.Add("Spec.ImageScanningConfiguration.ScanOnPush", a.ko.Spec.ImageScanningConfiguration.ScanOnPush, b.ko.Spec.ImageScanningConfiguration.ScanOnPush)
-		} else if a.ko.Spec.ImageScanningConfiguration.ScanOnPush != nil && b.ko.Spec.ImageScanningConfiguration.ScanOnPush != nil {
-			if *a.ko.Spec.ImageScanningConfiguration.ScanOnPush != *b.ko.Spec.ImageScanningConfiguration.ScanOnPush {
-				delta.Add("Spec.ImageScanningConfiguration.ScanOnPush", a.ko.Spec.ImageScanningConfiguration.ScanOnPush, b.ko.Spec.ImageScanningConfiguration.ScanOnPush)
-			}
-		}
-	}
 	if ackcompare.HasNilDifference(a.ko.Spec.ImageTagMutability, b.ko.Spec.ImageTagMutability) {
 		delta.Add("Spec.ImageTagMutability", a.ko.Spec.ImageTagMutability, b.ko.Spec.ImageTagMutability)
 	} else if a.ko.Spec.ImageTagMutability != nil && b.ko.Spec.ImageTagMutability != nil {
@@ -73,6 +62,17 @@ func newResourceDelta(
 	} else if a.ko.Spec.Name != nil && b.ko.Spec.Name != nil {
 		if *a.ko.Spec.Name != *b.ko.Spec.Name {
 			delta.Add("Spec.Name", a.ko.Spec.Name, b.ko.Spec.Name)
+		}
+	}
+	if ackcompare.HasNilDifference(a.ko.Spec.ScanConfig, b.ko.Spec.ScanConfig) {
+		delta.Add("Spec.ScanConfig", a.ko.Spec.ScanConfig, b.ko.Spec.ScanConfig)
+	} else if a.ko.Spec.ScanConfig != nil && b.ko.Spec.ScanConfig != nil {
+		if ackcompare.HasNilDifference(a.ko.Spec.ScanConfig.ScanOnPush, b.ko.Spec.ScanConfig.ScanOnPush) {
+			delta.Add("Spec.ScanConfig.ScanOnPush", a.ko.Spec.ScanConfig.ScanOnPush, b.ko.Spec.ScanConfig.ScanOnPush)
+		} else if a.ko.Spec.ScanConfig.ScanOnPush != nil && b.ko.Spec.ScanConfig.ScanOnPush != nil {
+			if *a.ko.Spec.ScanConfig.ScanOnPush != *b.ko.Spec.ScanConfig.ScanOnPush {
+				delta.Add("Spec.ScanConfig.ScanOnPush", a.ko.Spec.ScanConfig.ScanOnPush, b.ko.Spec.ScanConfig.ScanOnPush)
+			}
 		}
 	}
 
