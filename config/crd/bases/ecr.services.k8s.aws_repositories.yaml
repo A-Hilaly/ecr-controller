@@ -16,7 +16,7 @@ spec:
     singular: repository
   scope: Namespaced
   versions:
-  - name: v1
+  - name: v2
     schema:
       openAPIV3Schema:
         description: Repository is the Schema for the Repositories API
@@ -46,14 +46,6 @@ spec:
                   kmsKey:
                     type: string
                 type: object
-              imageScanningConfiguration:
-                description: The image scanning configuration for the repository.
-                  This determines whether images are scanned for known vulnerabilities
-                  after being pushed to the repository.
-                properties:
-                  scanOnPush:
-                    type: boolean
-                type: object
               imageTagMutability:
                 description: The tag mutability setting for the repository. If this
                   parameter is omitted, the default setting of MUTABLE will be used
@@ -67,6 +59,14 @@ spec:
                   prepended with a namespace to group the repository into a category
                   (such as project-a/nginx-web-app).
                 type: string
+              scanConfig:
+                description: The image scanning configuration for the repository.
+                  This determines whether images are scanned for known vulnerabilities
+                  after being pushed to the repository.
+                properties:
+                  scanOnPush:
+                    type: boolean
+                type: object
               tags:
                 description: The metadata that you apply to the repository to help
                   you categorize and organize them. Each tag consists of a key and

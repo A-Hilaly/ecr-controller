@@ -23,7 +23,7 @@ import (
 	k8sapirt "k8s.io/apimachinery/pkg/runtime"
 	k8sctrlutil "sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
 
-	svcapitypes "github.com/aws-controllers-k8s/ecr-controller/apis/v1"
+	svcapitypes "github.com/aws-controllers-k8s/ecr-controller/apis/v2"
 )
 
 const (
