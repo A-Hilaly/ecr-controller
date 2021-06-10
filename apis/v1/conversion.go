@@ -1,3 +1,7 @@
 package v1
 
-func (*Repository) Hub() {}
+import "fmt"
+
+func (*Repository) Hub() {
+	fmt.Println("Hub called")
+}

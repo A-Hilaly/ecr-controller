@@ -1,13 +1,18 @@
 package v2
 
 import (
+	"fmt"
+
 	"sigs.k8s.io/controller-runtime/pkg/conversion"
 
 	v1 "github.com/aws-controllers-k8s/ecr-controller/apis/v1"
 )
 
+var _ conversion.Convertible = &Repository{}
+
 // ConvertTo converts this Repository to the Hub version (v1).
-func (src *Repository) ConvertTo(dstRaw conversion.Hub) {
+func (src *Repository) ConvertTo(dstRaw conversion.Hub) error {
+	fmt.Println("Called convertTo")
 	dst := dstRaw.(*v1.Repository)
 	dst.ObjectMeta = src.ObjectMeta
 
@@ -32,10 +37,12 @@ func (src *Repository) ConvertTo(dstRaw conversion.Hub) {
 
 	// Copy status
 	dst.Status = v1.RepositoryStatus(src.Status)
+	return nil
 }
 
 // ConvertFrom converts from the Hub version (v1) to this version.
-func (dst *Repository) ConvertFrom(srcRaw conversion.Hub) {
+func (dst *Repository) ConvertFrom(srcRaw conversion.Hub) error {
+	fmt.Println("Called convertFrom")
 	src := srcRaw.(*v1.Repository)
 	dst.ObjectMeta = src.ObjectMeta
 
@@ -60,4 +67,5 @@ func (dst *Repository) ConvertFrom(srcRaw conversion.Hub) {
 
 	// Copy status
 	dst.Status = RepositoryStatus(src.Status)
+	return nil
 }
