@@ -15,6 +15,7 @@ package repository
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/aws/aws-sdk-go/aws"
 	svcsdk "github.com/aws/aws-sdk-go/service/ecr"
@@ -49,7 +50,9 @@ func (rm *resourceManager) customUpdateRepository(
 	var err error
 	var updated *resource
 	updated = desired
-	if delta.DifferentAt("ImageScanningConfiguration") {
+	fmt.Println("called custom")
+	if delta.DifferentAt("ScanConfig") {
+		fmt.Println("FOUND DIFF")
 		updated, err = rm.updateImageScanningConfiguration(ctx, updated)
 		if err != nil {
 			return nil, err
@@ -70,6 +73,7 @@ func (rm *resourceManager) updateImageScanningConfiguration(
 	ctx context.Context,
 	desired *resource,
 ) (*resource, error) {
+	fmt.Println("UPDATING REPO")
 	dspec := desired.ko.Spec
 	input := &svcsdk.PutImageScanningConfigurationInput{
 		RepositoryName: aws.String(*dspec.Name),
@@ -84,6 +88,7 @@ func (rm *resourceManager) updateImageScanningConfiguration(
 		}
 		input.SetImageScanningConfiguration(&isc)
 	}
+	fmt.Println("UPDATING REPO with", input.ImageScanningConfiguration.ScanOnPush)
 	_, err := rm.sdkapi.PutImageScanningConfigurationWithContext(ctx, input)
 	if err != nil {
 		return nil, err

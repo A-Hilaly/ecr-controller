@@ -37,7 +37,7 @@ func (src *Repository) ConvertTo(dstRaw conversion.Hub) error {
 
 	// Copy status
 	dst.Status = v1.RepositoryStatus(src.Status)
-	return nil
+	return fmt.Errorf("TROLOLOLOL")
 }
 
 // ConvertFrom converts from the Hub version (v1) to this version.
@@ -67,5 +67,5 @@ func (dst *Repository) ConvertFrom(srcRaw conversion.Hub) error {
 
 	// Copy status
 	dst.Status = RepositoryStatus(src.Status)
-	return nil
+	return fmt.Errorf("TROLOLOLOL")
 }

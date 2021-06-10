@@ -4,5 +4,9 @@ bases:
   - common
 resources:
   - bases/ecr.services.k8s.aws_repositories.yaml
+#+kubebuilder:scaffold:crdkustomizeresource
+
 patchesStrategicMerge:
   - patches/webhook_in_repositories.yaml
+#+kubebuilder:scaffold:crdkustomizewebhookpatch
+
