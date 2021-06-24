@@ -19,6 +19,8 @@ import (
 
 	ackcfg "github.com/aws-controllers-k8s/runtime/pkg/config"
 	ackrt "github.com/aws-controllers-k8s/runtime/pkg/runtime"
+	ackrtwebhook "github.com/aws-controllers-k8s/runtime/pkg/webhook"
+
 	flag "github.com/spf13/pflag"
 	"k8s.io/apimachinery/pkg/runtime"
 	clientgoscheme "k8s.io/client-go/kubernetes/scheme"
@@ -119,6 +121,15 @@ func main() {
 		setupLog.Error(err, "unable to create webhook", "webhook", "Repository")
 		os.Exit(1)
 	}
+
+	for _, wh := range ackrtwebhook.GetWebhooks() {
+		err := wh.Setup(mgr)
+		if err != nil {
+			setupLog.Error(err, "unable to create webhook"+wh.UID())
+			os.Exit(1)
+		}
+	}
+
 	//+kubebuilder:scaffold:builder
 
 	if err := mgr.Start(stopChan); err != nil {
