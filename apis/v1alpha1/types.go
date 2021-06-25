@@ -74,12 +74,6 @@ type ImageScanningConfiguration struct {
 }
 
 
-// An array of objects representing the details of a replication destination.
-type ReplicationDestination struct {
-	RegistryID *string `json:"registryID,omitempty"`
-}
-
-
 // An object representing a repository.
 type Repository_SDK struct {
 	CreatedAt *metav1.Time `json:"createdAt,omitempty"`

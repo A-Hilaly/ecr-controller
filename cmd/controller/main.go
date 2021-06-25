@@ -26,19 +26,18 @@ import (
 	ctrlrt "sigs.k8s.io/controller-runtime"
 	ctrlrtmetrics "sigs.k8s.io/controller-runtime/pkg/metrics"
 
-	ackv1alpha1 "github.com/aws-controllers-k8s/runtime/apis/core/v1alpha1"
-	svcresource "github.com/aws-controllers-k8s/ecr-controller/pkg/resource"
 	svctypes "github.com/aws-controllers-k8s/ecr-controller/apis/v2"
+	svcresource "github.com/aws-controllers-k8s/ecr-controller/pkg/resource"
+	ackv1alpha1 "github.com/aws-controllers-k8s/runtime/apis/core/v1alpha1"
 
-	 _ "github.com/aws-controllers-k8s/ecr-controller/pkg/resource/repository"
-	
+	_ "github.com/aws-controllers-k8s/ecr-controller/pkg/resource/repository"
 )
 
 var (
 	awsServiceAPIGroup = "ecr.services.k8s.aws"
-	awsServiceAlias	= "ecr"
-	scheme			 = runtime.NewScheme()
-	setupLog		   = ctrlrt.Log.WithName("setup")
+	awsServiceAlias    = "ecr"
+	scheme             = runtime.NewScheme()
+	setupLog           = ctrlrt.Log.WithName("setup")
 )
 
 func init() {
@@ -62,12 +61,12 @@ func main() {
 	}
 
 	mgr, err := ctrlrt.NewManager(ctrlrt.GetConfigOrDie(), ctrlrt.Options{
-		Scheme:			 scheme,
-		Port:			   ackCfg.BindPort,
+		Scheme:             scheme,
+		Port:               ackCfg.BindPort,
 		MetricsBindAddress: ackCfg.MetricsAddr,
-		LeaderElection:	 ackCfg.EnableLeaderElection,
+		LeaderElection:     ackCfg.EnableLeaderElection,
 		LeaderElectionID:   awsServiceAPIGroup,
-		Namespace: ackCfg.WatchNamespace,
+		Namespace:          ackCfg.WatchNamespace,
 	})
 	if err != nil {
 		setupLog.Error(
@@ -85,7 +84,7 @@ func main() {
 	)
 	sc := ackrt.NewServiceController(
 		awsServiceAlias, awsServiceAPIGroup,
-		ackrt.VersionInfo{},	// TODO: populate version info
+		ackrt.VersionInfo{}, // TODO: populate version info
 	).WithLogger(
 		ctrlrt.Log,
 	).WithResourceManagerFactories(
