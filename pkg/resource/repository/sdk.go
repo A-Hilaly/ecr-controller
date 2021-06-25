@@ -159,7 +159,7 @@ func (rm *resourceManager) sdkCreate(
 	input, err := rm.newCreateRequestPayload(ctx, r)
 	if err != nil {
 		return nil, err
-	}
+	}	
 
 	resp, respErr := rm.sdkapi.CreateRepositoryWithContext(ctx, input)
 	rm.metrics.RecordAPICall("CREATE", "CreateRepository", respErr)
@@ -194,15 +194,15 @@ func (rm *resourceManager) sdkCreate(
 	}
 
 	rm.setStatusDefaults(ko)
-
+	
 	return &resource{ko}, nil
 }
 
 // newCreateRequestPayload returns an SDK-specific struct for the HTTP request
 // payload of the Create API call for the resource
 func (rm *resourceManager) newCreateRequestPayload(
-	ctx context.Context,
-	r *resource,
+    ctx context.Context,
+    r *resource,
 ) (*svcsdk.CreateRepositoryInput, error) {
 	res := &svcsdk.CreateRepositoryInput{}
 
@@ -264,6 +264,7 @@ func (rm *resourceManager) sdkDelete(
 	r *resource,
 ) error {
 
+
 	input, err := rm.newDeleteRequestPayload(r)
 	if err != nil {
 		return err
@@ -291,7 +292,7 @@ func (rm *resourceManager) newDeleteRequestPayload(
 }
 
 // setStatusDefaults sets default properties into supplied custom resource
-func (rm *resourceManager) setStatusDefaults(
+func (rm *resourceManager) setStatusDefaults (
 	ko *svcapitypes.Repository,
 ) {
 	if ko.Status.ACKResourceMetadata == nil {
@@ -307,7 +308,7 @@ func (rm *resourceManager) setStatusDefaults(
 
 // updateConditions returns updated resource, true; if conditions were updated
 // else it returns nil, false
-func (rm *resourceManager) updateConditions(
+func (rm *resourceManager) updateConditions (
 	r *resource,
 	err error,
 ) (*resource, bool) {
@@ -329,7 +330,7 @@ func (rm *resourceManager) updateConditions(
 	if rm.terminalAWSError(err) {
 		if terminalCondition == nil {
 			terminalCondition = &ackv1alpha1.Condition{
-				Type: ackv1alpha1.ConditionTypeTerminal,
+				Type:   ackv1alpha1.ConditionTypeTerminal,
 			}
 			ko.Status.Conditions = append(ko.Status.Conditions, terminalCondition)
 		}
@@ -348,7 +349,7 @@ func (rm *resourceManager) updateConditions(
 			if recoverableCondition == nil {
 				// Add a new Condition containing a non-terminal error
 				recoverableCondition = &ackv1alpha1.Condition{
-					Type: ackv1alpha1.ConditionTypeRecoverable,
+					Type:   ackv1alpha1.ConditionTypeRecoverable,
 				}
 				ko.Status.Conditions = append(ko.Status.Conditions, recoverableCondition)
 			}

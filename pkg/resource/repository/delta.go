@@ -22,15 +22,15 @@ import (
 // newResourceDelta returns a new `ackcompare.Delta` used to compare two
 // resources
 func newResourceDelta(
-	a *resource,
-	b *resource,
+    a *resource,
+    b *resource,
 ) *ackcompare.Delta {
-	delta := ackcompare.NewDelta()
-	if (a == nil && b != nil) ||
-		(a != nil && b == nil) {
-		delta.Add("", a, b)
-		return delta
-	}
+    delta := ackcompare.NewDelta()
+    if ((a == nil && b != nil) ||
+            (a != nil && b == nil)) {
+        delta.Add("", a, b)
+        return delta
+    }
 
 	if ackcompare.HasNilDifference(a.ko.Spec.EncryptionConfiguration, b.ko.Spec.EncryptionConfiguration) {
 		delta.Add("Spec.EncryptionConfiguration", a.ko.Spec.EncryptionConfiguration, b.ko.Spec.EncryptionConfiguration)
@@ -76,5 +76,6 @@ func newResourceDelta(
 		}
 	}
 
-	return delta
+
+    return delta
 }

@@ -17,8 +17,8 @@ package repository
 
 import (
 	ackv1alpha1 "github.com/aws-controllers-k8s/runtime/apis/core/v1alpha1"
-	ackerrors "github.com/aws-controllers-k8s/runtime/pkg/errors"
 	acktypes "github.com/aws-controllers-k8s/runtime/pkg/types"
+	ackerrors "github.com/aws-controllers-k8s/runtime/pkg/errors"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8srt "k8s.io/apimachinery/pkg/runtime"
 
@@ -76,7 +76,7 @@ func (r *resource) Conditions() []*ackv1alpha1.Condition {
 
 // SetObjectMeta sets the ObjectMeta field for the resource
 func (r *resource) SetObjectMeta(meta metav1.ObjectMeta) {
-	r.ko.ObjectMeta = meta
+	r.ko.ObjectMeta = meta;
 }
 
 // SetIdentifiers sets the Spec or Status field that is referenced as the unique

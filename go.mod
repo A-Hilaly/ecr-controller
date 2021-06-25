@@ -12,3 +12,5 @@ require (
 	k8s.io/client-go v0.18.2
 	sigs.k8s.io/controller-runtime v0.6.0
 )
+
+replace github.com/aws-controllers-k8s/runtime => ../runtime

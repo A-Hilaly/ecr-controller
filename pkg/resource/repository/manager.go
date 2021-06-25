@@ -22,8 +22,8 @@ import (
 	corev1 "k8s.io/api/core/v1"
 
 	ackv1alpha1 "github.com/aws-controllers-k8s/runtime/apis/core/v1alpha1"
-	ackcompare "github.com/aws-controllers-k8s/runtime/pkg/compare"
 	ackcfg "github.com/aws-controllers-k8s/runtime/pkg/config"
+	ackcompare "github.com/aws-controllers-k8s/runtime/pkg/compare"
 	ackmetrics "github.com/aws-controllers-k8s/runtime/pkg/metrics"
 	acktypes "github.com/aws-controllers-k8s/runtime/pkg/types"
 	"github.com/aws/aws-sdk-go/aws/session"
@@ -87,6 +87,9 @@ func (rm *resourceManager) ReadOne(
 	}
 	observed, err := rm.sdkFind(ctx, r)
 	if err != nil {
+		if observed != nil {
+			return rm.onError(observed, err)
+		}
 		return rm.onError(r, err)
 	}
 	return rm.onSuccess(observed)
@@ -177,14 +180,14 @@ func newResourceManager(
 	region ackv1alpha1.AWSRegion,
 ) (*resourceManager, error) {
 	return &resourceManager{
-		cfg:          cfg,
-		log:          log,
-		metrics:      metrics,
-		rr:           rr,
+		cfg: cfg,
+		log: log,
+		metrics: metrics,
+		rr: rr,
 		awsAccountID: id,
-		awsRegion:    region,
-		sess:         sess,
-		sdkapi:       svcsdk.New(sess),
+		awsRegion: region,
+		sess:		 sess,
+		sdkapi:	   svcsdk.New(sess),
 	}, nil
 }
 
