@@ -19,18 +19,18 @@ type EncryptionType string
 
 const (
 	EncryptionType_AES256 EncryptionType = "AES256"
-	EncryptionType_KMS EncryptionType = "KMS"
+	EncryptionType_KMS    EncryptionType = "KMS"
 )
 
 type FindingSeverity string
 
 const (
 	FindingSeverity_INFORMATIONAL FindingSeverity = "INFORMATIONAL"
-	FindingSeverity_LOW FindingSeverity = "LOW"
-	FindingSeverity_MEDIUM FindingSeverity = "MEDIUM"
-	FindingSeverity_HIGH FindingSeverity = "HIGH"
-	FindingSeverity_CRITICAL FindingSeverity = "CRITICAL"
-	FindingSeverity_UNDEFINED FindingSeverity = "UNDEFINED"
+	FindingSeverity_LOW           FindingSeverity = "LOW"
+	FindingSeverity_MEDIUM        FindingSeverity = "MEDIUM"
+	FindingSeverity_HIGH          FindingSeverity = "HIGH"
+	FindingSeverity_CRITICAL      FindingSeverity = "CRITICAL"
+	FindingSeverity_UNDEFINED     FindingSeverity = "UNDEFINED"
 )
 
 type ImageActionType string
@@ -42,26 +42,26 @@ const (
 type ImageFailureCode string
 
 const (
-	ImageFailureCode_InvalidImageDigest ImageFailureCode = "InvalidImageDigest"
-	ImageFailureCode_InvalidImageTag ImageFailureCode = "InvalidImageTag"
-	ImageFailureCode_ImageTagDoesNotMatchDigest ImageFailureCode = "ImageTagDoesNotMatchDigest"
-	ImageFailureCode_ImageNotFound ImageFailureCode = "ImageNotFound"
-	ImageFailureCode_MissingDigestAndTag ImageFailureCode = "MissingDigestAndTag"
+	ImageFailureCode_InvalidImageDigest            ImageFailureCode = "InvalidImageDigest"
+	ImageFailureCode_InvalidImageTag               ImageFailureCode = "InvalidImageTag"
+	ImageFailureCode_ImageTagDoesNotMatchDigest    ImageFailureCode = "ImageTagDoesNotMatchDigest"
+	ImageFailureCode_ImageNotFound                 ImageFailureCode = "ImageNotFound"
+	ImageFailureCode_MissingDigestAndTag           ImageFailureCode = "MissingDigestAndTag"
 	ImageFailureCode_ImageReferencedByManifestList ImageFailureCode = "ImageReferencedByManifestList"
-	ImageFailureCode_KmsError ImageFailureCode = "KmsError"
+	ImageFailureCode_KmsError                      ImageFailureCode = "KmsError"
 )
 
 type ImageTagMutability string
 
 const (
-	ImageTagMutability_MUTABLE ImageTagMutability = "MUTABLE"
+	ImageTagMutability_MUTABLE   ImageTagMutability = "MUTABLE"
 	ImageTagMutability_IMMUTABLE ImageTagMutability = "IMMUTABLE"
 )
 
 type LayerAvailability string
 
 const (
-	LayerAvailability_AVAILABLE LayerAvailability = "AVAILABLE"
+	LayerAvailability_AVAILABLE   LayerAvailability = "AVAILABLE"
 	LayerAvailability_UNAVAILABLE LayerAvailability = "UNAVAILABLE"
 )
 
@@ -76,23 +76,23 @@ type LifecyclePolicyPreviewStatus string
 
 const (
 	LifecyclePolicyPreviewStatus_IN_PROGRESS LifecyclePolicyPreviewStatus = "IN_PROGRESS"
-	LifecyclePolicyPreviewStatus_COMPLETE LifecyclePolicyPreviewStatus = "COMPLETE"
-	LifecyclePolicyPreviewStatus_EXPIRED LifecyclePolicyPreviewStatus = "EXPIRED"
-	LifecyclePolicyPreviewStatus_FAILED LifecyclePolicyPreviewStatus = "FAILED"
+	LifecyclePolicyPreviewStatus_COMPLETE    LifecyclePolicyPreviewStatus = "COMPLETE"
+	LifecyclePolicyPreviewStatus_EXPIRED     LifecyclePolicyPreviewStatus = "EXPIRED"
+	LifecyclePolicyPreviewStatus_FAILED      LifecyclePolicyPreviewStatus = "FAILED"
 )
 
 type ScanStatus string
 
 const (
 	ScanStatus_IN_PROGRESS ScanStatus = "IN_PROGRESS"
-	ScanStatus_COMPLETE ScanStatus = "COMPLETE"
-	ScanStatus_FAILED ScanStatus = "FAILED"
+	ScanStatus_COMPLETE    ScanStatus = "COMPLETE"
+	ScanStatus_FAILED      ScanStatus = "FAILED"
 )
 
 type TagStatus string
 
 const (
-	TagStatus_TAGGED TagStatus = "TAGGED"
+	TagStatus_TAGGED   TagStatus = "TAGGED"
 	TagStatus_UNTAGGED TagStatus = "UNTAGGED"
-	TagStatus_ANY TagStatus = "ANY"
+	TagStatus_ANY      TagStatus = "ANY"
 )

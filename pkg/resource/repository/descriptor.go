@@ -17,8 +17,8 @@ package repository
 
 import (
 	ackv1alpha1 "github.com/aws-controllers-k8s/runtime/apis/core/v1alpha1"
-	acktypes "github.com/aws-controllers-k8s/runtime/pkg/types"
 	ackcompare "github.com/aws-controllers-k8s/runtime/pkg/compare"
+	acktypes "github.com/aws-controllers-k8s/runtime/pkg/types"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 	k8sapirt "k8s.io/apimachinery/pkg/runtime"
 	k8sctrlutil "sigs.k8s.io/controller-runtime/pkg/controller/controllerutil"
@@ -67,7 +67,7 @@ func (d *resourceDescriptor) ResourceFromRuntimeObject(
 // Delta returns an `ackcompare.Delta` object containing the difference between
 // one `AWSResource` and another.
 func (d *resourceDescriptor) Delta(a, b acktypes.AWSResource) *ackcompare.Delta {
-    return newResourceDelta(a.(*resource), b.(*resource))
+	return newResourceDelta(a.(*resource), b.(*resource))
 }
 
 // UpdateCRStatus accepts an AWSResource object and changes the Status
@@ -160,4 +160,4 @@ func (d *resourceDescriptor) MarkAdopted(
 	}
 	curr[ackv1alpha1.AnnotationAdopted] = "true"
 	obj.SetAnnotations(curr)
-} 
+}
