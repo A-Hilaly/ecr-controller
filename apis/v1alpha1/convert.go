@@ -15,45 +15,60 @@
 
 package v1alpha1
 
+
+
 import (
-	"encoding/json"
-	"fmt"
+    "encoding/json"
+    "fmt"
 
-	ackrtwh "github.com/aws-controllers-k8s/runtime/pkg/webhook"
-	ctrlrt "sigs.k8s.io/controller-runtime"
-	ctrlrtconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
+    ctrlrtconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
+    ctrlrt "sigs.k8s.io/controller-runtime"
+    ackrtwh "github.com/aws-controllers-k8s/runtime/pkg/webhook"
 
-	v2 "github.com/aws-controllers-k8s/ecr-controller/apis/v2"
+    v2 "github.com/aws-controllers-k8s/ecr-controller/apis/v2"
 )
 
 var (
-	_ = fmt.Printf
-	_ = json.Marshal
+    _ = fmt.Printf
+    _ = json.Marshal
 )
+
+func init() {
+    webhook := ackrtwh.New(
+        "conversion",
+        "Repository",
+        "v1alpha1",
+        setupWebhookWithManager,
+    )
+    if err := ackrtwh.RegisterWebhook(webhook); err != nil {
+        msg := fmt.Sprintf("cannot register webhook: %v", err)
+        panic(msg)
+    }
+}
+
+func setupWebhookWithManager(mgr ctrlrt.Manager) error {
+	return ctrlrt.NewWebhookManagedBy(mgr).
+		For(&Repository{}).
+		Complete()
+}
 
 // ConvertTo converts this Repository to the Hub version (v2).
 func (src *Repository) ConvertTo(dstRaw ctrlrtconversion.Hub) error {
 	dst := dstRaw.(*v2.Repository)
-	// ChangeType: intact
-	if src.Spec.EncryptionConfiguration != nil {
-		encryptionConfigurationCopy := &v2.EncryptionConfiguration{}
-		encryptionConfigurationCopy.EncryptionType = src.Spec.EncryptionConfiguration.EncryptionType
-		encryptionConfigurationCopy.KMSKey = src.Spec.EncryptionConfiguration.KMSKey
-		dst.Spec.EncryptionConfiguration = encryptionConfigurationCopy
-	}
+	objectMetadataCopy := src.ObjectMeta
 
-	// ChangeType: renamed
+	// FieldChangeType: renamed
 	dst.Spec.ITM = src.Spec.ImageTagMutability
-	// ChangeType: intact
+	// FieldChangeType: intact
 	dst.Spec.Name = src.Spec.Name
-	// ChangeType: intact
+	// FieldChangeType: intact
 	if src.Spec.ScanConfig != nil {
 		imageScanningConfigurationCopy := &v2.ImageScanningConfiguration{}
 		imageScanningConfigurationCopy.ScanOnPush = src.Spec.ScanConfig.ScanOnPush
 		dst.Spec.ScanConfig = imageScanningConfigurationCopy
 	}
 
-	// ChangeType: intact
+	// FieldChangeType: intact
 	if src.Spec.Tags != nil {
 		tagListCopy := make([]*v2.Tag, 0, len(src.Spec.Tags))
 		for i, element := range src.Spec.Tags {
@@ -71,32 +86,33 @@ func (src *Repository) ConvertTo(dstRaw ctrlrtconversion.Hub) error {
 		dst.Spec.Tags = tagListCopy
 	}
 
+	// FieldChangeType: added
+	err := DecodeFieldDataAnnotation("conversions.ack.aws.dev/EncryptionConfiguration", dst.Spec.EncryptionConfiguration)
+	if err != nil {
+		return err
+	}
+
+	dst.ObjectMeta = objectMetadataCopy
 	return nil
 }
 
 // ConvertFrom converts the Hub version (v2) to this Repository.
 func (dst *Repository) ConvertFrom(srcRaw ctrlrtconversion.Hub) error {
 	src := srcRaw.(*v2.Repository)
-	// ChangeType: intact
-	if src.Spec.EncryptionConfiguration != nil {
-		encryptionConfigurationCopy := &EncryptionConfiguration{}
-		encryptionConfigurationCopy.EncryptionType = src.Spec.EncryptionConfiguration.EncryptionType
-		encryptionConfigurationCopy.KMSKey = src.Spec.EncryptionConfiguration.KMSKey
-		dst.Spec.EncryptionConfiguration = encryptionConfigurationCopy
-	}
+	objectMetadataCopy := src.ObjectMeta
 
-	// ChangeType: renamed
+	// FieldChangeType: renamed
 	dst.Spec.ImageTagMutability = src.Spec.ITM
-	// ChangeType: intact
+	// FieldChangeType: intact
 	dst.Spec.Name = src.Spec.Name
-	// ChangeType: intact
+	// FieldChangeType: intact
 	if src.Spec.ScanConfig != nil {
 		imageScanningConfigurationCopy := &ImageScanningConfiguration{}
 		imageScanningConfigurationCopy.ScanOnPush = src.Spec.ScanConfig.ScanOnPush
 		dst.Spec.ScanConfig = imageScanningConfigurationCopy
 	}
 
-	// ChangeType: intact
+	// FieldChangeType: intact
 	if src.Spec.Tags != nil {
 		tagListCopy := make([]*Tag, 0, len(src.Spec.Tags))
 		for i, element := range src.Spec.Tags {
@@ -114,26 +130,15 @@ func (dst *Repository) ConvertFrom(srcRaw ctrlrtconversion.Hub) error {
 		dst.Spec.Tags = tagListCopy
 	}
 
-	return nil
-}
-
-func setupWebhookWithManager(mgr ctrlrt.Manager) error {
-	return ctrlrt.NewWebhookManagedBy(mgr).
-		For(&Repository{}).
-		Complete()
-}
-
-func init() {
-	webhook := ackrtwh.New(
-		"conversion",
-		"Repository",
-		"v2",
-		setupWebhookWithManager,
-	)
-	if err := ackrtwh.RegisterWebhook(webhook); err != nil {
-		msg := fmt.Sprintf("cannot register webhook: %v", err)
-		panic(msg)
+	// FieldChangeType: added
+	annotationKey, annotationValueVar, err := AnnotateFieldData("EncryptionConfiguration", src.Spec.EncryptionConfiguration)
+	if err != nil {
+		return err
 	}
+	objectMetadataCopy.Annotations[annotationKey] = annotationValueVar
+
+	dst.ObjectMeta = objectMetadataCopy
+	return nil
 }
 
 // Assert convertible interface implementation Repository
