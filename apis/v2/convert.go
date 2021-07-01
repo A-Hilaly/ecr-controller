@@ -18,8 +18,15 @@ package v2
 
 
 import (
+    "encoding/json"
+    "fmt"
 
     ctrlrtconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
+)
+
+var (
+    _ = fmt.Printf
+    _ = json.Marshal
 )
 // Assert hub interface implementation Repository
 var _ ctrlrtconversion.Hub = &Repository{}

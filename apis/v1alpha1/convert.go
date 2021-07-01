@@ -18,6 +18,7 @@ package v1alpha1
 
 
 import (
+    "encoding/json"
     "fmt"
 
     ctrlrtconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
@@ -27,9 +28,15 @@ import (
     v2 "github.com/aws-controllers-k8s/ecr-controller/apis/v2"
 )
 
+var (
+    _ = fmt.Printf
+    _ = json.Marshal
+)
+
 // ConvertTo converts this Repository to the Hub version (v2).
 func (src *Repository) ConvertTo(dstRaw ctrlrtconversion.Hub) error {
 	dst := dstRaw.(*v2.Repository)
+	// ChangeType: intact
 	if src.Spec.EncryptionConfiguration != nil {
 		encryptionConfigurationCopy := &v2.EncryptionConfiguration{}
 		encryptionConfigurationCopy.EncryptionType = src.Spec.EncryptionConfiguration.EncryptionType
@@ -37,14 +44,18 @@ func (src *Repository) ConvertTo(dstRaw ctrlrtconversion.Hub) error {
 		dst.Spec.EncryptionConfiguration = encryptionConfigurationCopy
 	}
 
-	dst.Spec.ImageTagMutability = src.Spec.ImageTagMutability
+	// ChangeType: renamed
+	dst.Spec.ITM = src.Spec.ImageTagMutability
+	// ChangeType: intact
 	dst.Spec.Name = src.Spec.Name
+	// ChangeType: intact
 	if src.Spec.ScanConfig != nil {
 		imageScanningConfigurationCopy := &v2.ImageScanningConfiguration{}
 		imageScanningConfigurationCopy.ScanOnPush = src.Spec.ScanConfig.ScanOnPush
 		dst.Spec.ScanConfig = imageScanningConfigurationCopy
 	}
 
+	// ChangeType: intact
 	if src.Spec.Tags != nil {
 		tagListCopy := make([]*v2.Tag, 0, len(src.Spec.Tags))
 		for i, element := range src.Spec.Tags {
@@ -68,6 +79,7 @@ func (src *Repository) ConvertTo(dstRaw ctrlrtconversion.Hub) error {
 // ConvertFrom converts the Hub version (v2) to this Repository.
 func (dst *Repository) ConvertFrom(srcRaw ctrlrtconversion.Hub) error {
 	src := srcRaw.(*v2.Repository)
+	// ChangeType: intact
 	if src.Spec.EncryptionConfiguration != nil {
 		encryptionConfigurationCopy := &EncryptionConfiguration{}
 		encryptionConfigurationCopy.EncryptionType = src.Spec.EncryptionConfiguration.EncryptionType
@@ -75,14 +87,18 @@ func (dst *Repository) ConvertFrom(srcRaw ctrlrtconversion.Hub) error {
 		dst.Spec.EncryptionConfiguration = encryptionConfigurationCopy
 	}
 
-	dst.Spec.ImageTagMutability = src.Spec.ImageTagMutability
+	// ChangeType: renamed
+	dst.Spec.ImageTagMutability = src.Spec.ITM
+	// ChangeType: intact
 	dst.Spec.Name = src.Spec.Name
+	// ChangeType: intact
 	if src.Spec.ScanConfig != nil {
 		imageScanningConfigurationCopy := &ImageScanningConfiguration{}
 		imageScanningConfigurationCopy.ScanOnPush = src.Spec.ScanConfig.ScanOnPush
 		dst.Spec.ScanConfig = imageScanningConfigurationCopy
 	}
 
+	// ChangeType: intact
 	if src.Spec.Tags != nil {
 		tagListCopy := make([]*Tag, 0, len(src.Spec.Tags))
 		for i, element := range src.Spec.Tags {

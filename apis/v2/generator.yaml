@@ -6,6 +6,7 @@ resources:
           input_fields:
             RepositoryName: Name
             ImageScanningConfiguration: ScanConfig
+            ImageTagMutability: ITM
         DescribeRepository:
           input_fields:
             ImageScanningConfiguration: ScanConfig

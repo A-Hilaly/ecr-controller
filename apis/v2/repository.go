@@ -27,7 +27,7 @@ type RepositorySpec struct {
 	// the default setting of MUTABLE will be used which will allow image tags to
 	// be overwritten. If IMMUTABLE is specified, all image tags within the repository
 	// will be immutable which will prevent them from being overwritten.
-	ImageTagMutability *string `json:"imageTagMutability,omitempty"`
+	ITM *string `json:"imageTagMutability,omitempty"`
 	// The name to use for the repository. The repository name may be specified
 	// on its own (such as nginx-web-app) or it can be prepended with a namespace
 	// to group the repository into a category (such as project-a/nginx-web-app).

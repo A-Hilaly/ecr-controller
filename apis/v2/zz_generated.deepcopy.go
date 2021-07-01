@@ -226,11 +226,6 @@ func (in *RepositorySpec) DeepCopyInto(out *RepositorySpec) {
 		*out = new(EncryptionConfiguration)
 		(*in).DeepCopyInto(*out)
 	}
-	if in.ImageTagMutability != nil {
-		in, out := &in.ImageTagMutability, &out.ImageTagMutability
-		*out = new(string)
-		**out = **in
-	}
 	if in.Name != nil {
 		in, out := &in.Name, &out.Name
 		*out = new(string)
