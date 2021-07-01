@@ -20,8 +20,9 @@ package v1alpha1
 import (
     "fmt"
 
-    ackrtwh "github.com/aws-controllers-k8s/runtime/pkg/webhook"
     ctrlrtconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
+    ctrlrt "sigs.k8s.io/controller-runtime"
+    ackrtwh "github.com/aws-controllers-k8s/runtime/pkg/webhook"
 
     v2 "github.com/aws-controllers-k8s/ecr-controller/apis/v2"
 )
@@ -30,15 +31,37 @@ import (
 func (src *Repository) ConvertTo(dstRaw ctrlrtconversion.Hub) error {
 	dst := dstRaw.(*v2.Repository)
 	if src.Spec.EncryptionConfiguration != nil {
-		dst.Spec.EncryptionConfiguration.EncryptionType = src.Spec.EncryptionConfiguration.EncryptionType
-		dst.Spec.EncryptionConfiguration.KMSKey = src.Spec.EncryptionConfiguration.KMSKey
+		encryptionConfigurationCopy := &v2.EncryptionConfiguration{}
+		encryptionConfigurationCopy.EncryptionType = src.Spec.EncryptionConfiguration.EncryptionType
+		encryptionConfigurationCopy.KMSKey = src.Spec.EncryptionConfiguration.KMSKey
+		dst.Spec.EncryptionConfiguration = encryptionConfigurationCopy
 	}
+
 	dst.Spec.ImageTagMutability = src.Spec.ImageTagMutability
-	dst.Spec.RepositoryName = src.Spec.RepositoryName
+	dst.Spec.Name = src.Spec.Name
 	if src.Spec.ScanConfig != nil {
-		dst.Spec.ImageScanningConfiguration.ScanOnPushFlag = src.Spec.ImageScanningConfiguration.ScanOnPushFlag
+		imageScanningConfigurationCopy := &v2.ImageScanningConfiguration{}
+		imageScanningConfigurationCopy.ScanOnPush = src.Spec.ScanConfig.ScanOnPush
+		dst.Spec.ScanConfig = imageScanningConfigurationCopy
 	}
-//unsupported: list
+
+	if src.Spec.Tags != nil {
+		tagListCopy := make([]*v2.Tag, 0, len(src.Spec.Tags))
+		for i, element := range src.Spec.Tags {
+			_ = i // non-used value guard.
+			elementCopy := &v2.Tag{}
+			if element != nil {
+				tagCopy := &v2.Tag{}
+				tagCopy.Key = element.Key
+				tagCopy.Value = element.Value
+				elementCopy = tagCopy
+			}
+
+			tagListCopy = append(tagListCopy, elementCopy)
+		}
+		dst.Spec.Tags = tagListCopy
+	}
+
 	return nil
 }
 
@@ -46,29 +69,59 @@ func (src *Repository) ConvertTo(dstRaw ctrlrtconversion.Hub) error {
 func (dst *Repository) ConvertFrom(srcRaw ctrlrtconversion.Hub) error {
 	src := srcRaw.(*v2.Repository)
 	if src.Spec.EncryptionConfiguration != nil {
-		dst.Spec.EncryptionConfiguration.EncryptionType = src.Spec.EncryptionConfiguration.EncryptionType
-		dst.Spec.EncryptionConfiguration.KMSKey = src.Spec.EncryptionConfiguration.KMSKey
+		encryptionConfigurationCopy := &EncryptionConfiguration{}
+		encryptionConfigurationCopy.EncryptionType = src.Spec.EncryptionConfiguration.EncryptionType
+		encryptionConfigurationCopy.KMSKey = src.Spec.EncryptionConfiguration.KMSKey
+		dst.Spec.EncryptionConfiguration = encryptionConfigurationCopy
 	}
+
 	dst.Spec.ImageTagMutability = src.Spec.ImageTagMutability
-	dst.Spec.RepositoryName = src.Spec.RepositoryName
+	dst.Spec.Name = src.Spec.Name
 	if src.Spec.ScanConfig != nil {
-		dst.Spec.ImageScanningConfiguration.ScanOnPushFlag = src.Spec.ImageScanningConfiguration.ScanOnPushFlag
+		imageScanningConfigurationCopy := &ImageScanningConfiguration{}
+		imageScanningConfigurationCopy.ScanOnPush = src.Spec.ScanConfig.ScanOnPush
+		dst.Spec.ScanConfig = imageScanningConfigurationCopy
 	}
-//unsupported: list
+
+	if src.Spec.Tags != nil {
+		tagListCopy := make([]*Tag, 0, len(src.Spec.Tags))
+		for i, element := range src.Spec.Tags {
+			_ = i // non-used value guard.
+			elementCopy := &Tag{}
+			if element != nil {
+				tagCopy := &Tag{}
+				tagCopy.Key = element.Key
+				tagCopy.Value = element.Value
+				elementCopy = tagCopy
+			}
+
+			tagListCopy = append(tagListCopy, elementCopy)
+		}
+		dst.Spec.Tags = tagListCopy
+	}
+
 	return nil
 }
 
+func setupWebhookWithManager(mgr ctrlrt.Manager) error {
+	return ctrlrt.NewWebhookManagedBy(mgr).
+		For(&Repository{}).
+		Complete()
+}
+
 func init() {
-    webhook := ackrtwh.NewWebhook(
+    webhook := ackrtwh.New(
         "conversion",
         "Repository",
         "v2",
+        setupWebhookWithManager,
     )
     if err := ackrtwh.RegisterWebhook(webhook); err != nil {
         msg := fmt.Sprintf("cannot register webhook: %v", err)
         panic(msg)
     }
 }
+
 
 // Assert convertible interface implementation Repository
 var _ ctrlrtconversion.Convertible = &Repository{}

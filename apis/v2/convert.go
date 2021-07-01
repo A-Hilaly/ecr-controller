@@ -20,10 +20,7 @@ package v2
 import (
     "fmt"
 
-    ctrlrt "sigs.k8s.io/controller-runtime"
-    ackrtwh "github.com/aws-controllers-k8s/runtime/pkg/webhook"
     ctrlrtconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
-
 )
 // Assert hub interface implementation Repository
 var _ ctrlrtconversion.Hub = &Repository{}
