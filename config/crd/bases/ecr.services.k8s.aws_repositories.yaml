@@ -37,16 +37,6 @@ spec:
             description: "RepositorySpec defines the desired state of Repository.
               \n An object representing a repository."
             properties:
-              encryptionConfiguration:
-                description: The encryption configuration for the repository. This
-                  determines how the contents of your repository are encrypted at
-                  rest.
-                properties:
-                  encryptionType:
-                    type: string
-                  kmsKey:
-                    type: string
-                type: object
               imageTagMutability:
                 description: The tag mutability setting for the repository. If this
                   parameter is omitted, the default setting of MUTABLE will be used
@@ -62,7 +52,7 @@ spec:
                 type: string
               scanConfig:
                 description: The image scanning configuration for the repository.
-                  This determines whether images are scanned for known vulnerabilities
+                  This setting determines whether images are scanned for known vulnerabilities
                   after being pushed to the repository.
                 properties:
                   scanOnPush:
@@ -160,7 +150,7 @@ spec:
                 type: string
               repositoryURI:
                 description: The URI for the repository. You can use this URI for
-                  container image push and pull operations.
+                  Docker push or pull operations.
                 type: string
             required:
             - ackResourceMetadata

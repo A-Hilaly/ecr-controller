@@ -15,13 +15,6 @@
 
 package v1alpha1
 
-type EncryptionType string
-
-const (
-	EncryptionType_AES256 EncryptionType = "AES256"
-	EncryptionType_KMS    EncryptionType = "KMS"
-)
-
 type FindingSeverity string
 
 const (
@@ -42,13 +35,11 @@ const (
 type ImageFailureCode string
 
 const (
-	ImageFailureCode_InvalidImageDigest            ImageFailureCode = "InvalidImageDigest"
-	ImageFailureCode_InvalidImageTag               ImageFailureCode = "InvalidImageTag"
-	ImageFailureCode_ImageTagDoesNotMatchDigest    ImageFailureCode = "ImageTagDoesNotMatchDigest"
-	ImageFailureCode_ImageNotFound                 ImageFailureCode = "ImageNotFound"
-	ImageFailureCode_MissingDigestAndTag           ImageFailureCode = "MissingDigestAndTag"
-	ImageFailureCode_ImageReferencedByManifestList ImageFailureCode = "ImageReferencedByManifestList"
-	ImageFailureCode_KmsError                      ImageFailureCode = "KmsError"
+	ImageFailureCode_InvalidImageDigest         ImageFailureCode = "InvalidImageDigest"
+	ImageFailureCode_InvalidImageTag            ImageFailureCode = "InvalidImageTag"
+	ImageFailureCode_ImageTagDoesNotMatchDigest ImageFailureCode = "ImageTagDoesNotMatchDigest"
+	ImageFailureCode_ImageNotFound              ImageFailureCode = "ImageNotFound"
+	ImageFailureCode_MissingDigestAndTag        ImageFailureCode = "MissingDigestAndTag"
 )
 
 type ImageTagMutability string

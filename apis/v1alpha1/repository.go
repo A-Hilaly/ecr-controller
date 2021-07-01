@@ -24,9 +24,6 @@ import (
 //
 // An object representing a repository.
 type RepositorySpec struct {
-	// The encryption configuration for the repository. This determines how the
-	// contents of your repository are encrypted at rest.
-	EncryptionConfiguration *EncryptionConfiguration `json:"encryptionConfiguration,omitempty"`
 	// The tag mutability setting for the repository. If this parameter is omitted,
 	// the default setting of MUTABLE will be used which will allow image tags to
 	// be overwritten. If IMMUTABLE is specified, all image tags within the repository
@@ -37,8 +34,9 @@ type RepositorySpec struct {
 	// to group the repository into a category (such as project-a/nginx-web-app).
 	// +kubebuilder:validation:Required
 	Name *string `json:"name"`
-	// The image scanning configuration for the repository. This determines whether
-	// images are scanned for known vulnerabilities after being pushed to the repository.
+	// The image scanning configuration for the repository. This setting determines
+	// whether images are scanned for known vulnerabilities after being pushed to
+	// the repository.
 	ScanConfig *ImageScanningConfiguration `json:"scanConfig,omitempty"`
 	// The metadata that you apply to the repository to help you categorize and
 	// organize them. Each tag consists of a key and an optional value, both of
@@ -62,8 +60,8 @@ type RepositoryStatus struct {
 	CreatedAt *metav1.Time `json:"createdAt,omitempty"`
 	// The AWS account ID associated with the registry that contains the repository.
 	RegistryID *string `json:"registryID,omitempty"`
-	// The URI for the repository. You can use this URI for container image push
-	// and pull operations.
+	// The URI for the repository. You can use this URI for Docker push or pull
+	// operations.
 	RepositoryURI *string `json:"repositoryURI,omitempty"`
 }
 

@@ -15,22 +15,20 @@
 
 package v1alpha1
 
-
-
 import (
-    "encoding/json"
-    "fmt"
+	"encoding/json"
+	"fmt"
 
-    ctrlrtconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
-    ctrlrt "sigs.k8s.io/controller-runtime"
-    ackrtwh "github.com/aws-controllers-k8s/runtime/pkg/webhook"
+	ackrtwh "github.com/aws-controllers-k8s/runtime/pkg/webhook"
+	ctrlrt "sigs.k8s.io/controller-runtime"
+	ctrlrtconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 
-    v2 "github.com/aws-controllers-k8s/ecr-controller/apis/v2"
+	v2 "github.com/aws-controllers-k8s/ecr-controller/apis/v2"
 )
 
 var (
-    _ = fmt.Printf
-    _ = json.Marshal
+	_ = fmt.Printf
+	_ = json.Marshal
 )
 
 // ConvertTo converts this Repository to the Hub version (v2).
@@ -126,18 +124,17 @@ func setupWebhookWithManager(mgr ctrlrt.Manager) error {
 }
 
 func init() {
-    webhook := ackrtwh.New(
-        "conversion",
-        "Repository",
-        "v2",
-        setupWebhookWithManager,
-    )
-    if err := ackrtwh.RegisterWebhook(webhook); err != nil {
-        msg := fmt.Sprintf("cannot register webhook: %v", err)
-        panic(msg)
-    }
+	webhook := ackrtwh.New(
+		"conversion",
+		"Repository",
+		"v2",
+		setupWebhookWithManager,
+	)
+	if err := ackrtwh.RegisterWebhook(webhook); err != nil {
+		msg := fmt.Sprintf("cannot register webhook: %v", err)
+		panic(msg)
+	}
 }
-
 
 // Assert convertible interface implementation Repository
 var _ ctrlrtconversion.Convertible = &Repository{}

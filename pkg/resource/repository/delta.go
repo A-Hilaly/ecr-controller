@@ -32,24 +32,6 @@ func newResourceDelta(
 		return delta
 	}
 
-	if ackcompare.HasNilDifference(a.ko.Spec.EncryptionConfiguration, b.ko.Spec.EncryptionConfiguration) {
-		delta.Add("Spec.EncryptionConfiguration", a.ko.Spec.EncryptionConfiguration, b.ko.Spec.EncryptionConfiguration)
-	} else if a.ko.Spec.EncryptionConfiguration != nil && b.ko.Spec.EncryptionConfiguration != nil {
-		if ackcompare.HasNilDifference(a.ko.Spec.EncryptionConfiguration.EncryptionType, b.ko.Spec.EncryptionConfiguration.EncryptionType) {
-			delta.Add("Spec.EncryptionConfiguration.EncryptionType", a.ko.Spec.EncryptionConfiguration.EncryptionType, b.ko.Spec.EncryptionConfiguration.EncryptionType)
-		} else if a.ko.Spec.EncryptionConfiguration.EncryptionType != nil && b.ko.Spec.EncryptionConfiguration.EncryptionType != nil {
-			if *a.ko.Spec.EncryptionConfiguration.EncryptionType != *b.ko.Spec.EncryptionConfiguration.EncryptionType {
-				delta.Add("Spec.EncryptionConfiguration.EncryptionType", a.ko.Spec.EncryptionConfiguration.EncryptionType, b.ko.Spec.EncryptionConfiguration.EncryptionType)
-			}
-		}
-		if ackcompare.HasNilDifference(a.ko.Spec.EncryptionConfiguration.KMSKey, b.ko.Spec.EncryptionConfiguration.KMSKey) {
-			delta.Add("Spec.EncryptionConfiguration.KMSKey", a.ko.Spec.EncryptionConfiguration.KMSKey, b.ko.Spec.EncryptionConfiguration.KMSKey)
-		} else if a.ko.Spec.EncryptionConfiguration.KMSKey != nil && b.ko.Spec.EncryptionConfiguration.KMSKey != nil {
-			if *a.ko.Spec.EncryptionConfiguration.KMSKey != *b.ko.Spec.EncryptionConfiguration.KMSKey {
-				delta.Add("Spec.EncryptionConfiguration.KMSKey", a.ko.Spec.EncryptionConfiguration.KMSKey, b.ko.Spec.EncryptionConfiguration.KMSKey)
-			}
-		}
-	}
 	if ackcompare.HasNilDifference(a.ko.Spec.ImageTagMutability, b.ko.Spec.ImageTagMutability) {
 		delta.Add("Spec.ImageTagMutability", a.ko.Spec.ImageTagMutability, b.ko.Spec.ImageTagMutability)
 	} else if a.ko.Spec.ImageTagMutability != nil && b.ko.Spec.ImageTagMutability != nil {

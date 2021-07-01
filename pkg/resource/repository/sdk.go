@@ -75,24 +75,12 @@ func (rm *resourceManager) sdkFind(
 		} else {
 			ko.Status.CreatedAt = nil
 		}
-		if elem.EncryptionConfiguration != nil {
-			f1 := &svcapitypes.EncryptionConfiguration{}
-			if elem.EncryptionConfiguration.EncryptionType != nil {
-				f1.EncryptionType = elem.EncryptionConfiguration.EncryptionType
-			}
-			if elem.EncryptionConfiguration.KmsKey != nil {
-				f1.KMSKey = elem.EncryptionConfiguration.KmsKey
-			}
-			ko.Spec.EncryptionConfiguration = f1
-		} else {
-			ko.Spec.EncryptionConfiguration = nil
-		}
 		if elem.ImageScanningConfiguration != nil {
-			f2 := &svcapitypes.ImageScanningConfiguration{}
+			f1 := &svcapitypes.ImageScanningConfiguration{}
 			if elem.ImageScanningConfiguration.ScanOnPush != nil {
-				f2.ScanOnPush = elem.ImageScanningConfiguration.ScanOnPush
+				f1.ScanOnPush = elem.ImageScanningConfiguration.ScanOnPush
 			}
-			ko.Spec.ScanConfig = f2
+			ko.Spec.ScanConfig = f1
 		} else {
 			ko.Spec.ScanConfig = nil
 		}
@@ -214,22 +202,12 @@ func (rm *resourceManager) newCreateRequestPayload(
 ) (*svcsdk.CreateRepositoryInput, error) {
 	res := &svcsdk.CreateRepositoryInput{}
 
-	if r.ko.Spec.EncryptionConfiguration != nil {
-		f0 := &svcsdk.EncryptionConfiguration{}
-		if r.ko.Spec.EncryptionConfiguration.EncryptionType != nil {
-			f0.SetEncryptionType(*r.ko.Spec.EncryptionConfiguration.EncryptionType)
-		}
-		if r.ko.Spec.EncryptionConfiguration.KMSKey != nil {
-			f0.SetKmsKey(*r.ko.Spec.EncryptionConfiguration.KMSKey)
-		}
-		res.SetEncryptionConfiguration(f0)
-	}
 	if r.ko.Spec.ScanConfig != nil {
-		f1 := &svcsdk.ImageScanningConfiguration{}
+		f0 := &svcsdk.ImageScanningConfiguration{}
 		if r.ko.Spec.ScanConfig.ScanOnPush != nil {
-			f1.SetScanOnPush(*r.ko.Spec.ScanConfig.ScanOnPush)
+			f0.SetScanOnPush(*r.ko.Spec.ScanConfig.ScanOnPush)
 		}
-		res.SetImageScanningConfiguration(f1)
+		res.SetImageScanningConfiguration(f0)
 	}
 	if r.ko.Spec.ImageTagMutability != nil {
 		res.SetImageTagMutability(*r.ko.Spec.ImageTagMutability)
@@ -238,18 +216,18 @@ func (rm *resourceManager) newCreateRequestPayload(
 		res.SetRepositoryName(*r.ko.Spec.Name)
 	}
 	if r.ko.Spec.Tags != nil {
-		f4 := []*svcsdk.Tag{}
-		for _, f4iter := range r.ko.Spec.Tags {
-			f4elem := &svcsdk.Tag{}
-			if f4iter.Key != nil {
-				f4elem.SetKey(*f4iter.Key)
+		f3 := []*svcsdk.Tag{}
+		for _, f3iter := range r.ko.Spec.Tags {
+			f3elem := &svcsdk.Tag{}
+			if f3iter.Key != nil {
+				f3elem.SetKey(*f3iter.Key)
 			}
-			if f4iter.Value != nil {
-				f4elem.SetValue(*f4iter.Value)
+			if f3iter.Value != nil {
+				f3elem.SetValue(*f3iter.Value)
 			}
-			f4 = append(f4, f4elem)
+			f3 = append(f3, f3elem)
 		}
-		res.SetTags(f4)
+		res.SetTags(f3)
 	}
 
 	return res, nil
