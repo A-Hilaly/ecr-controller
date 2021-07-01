@@ -18,7 +18,6 @@ package v2
 
 
 import (
-    "fmt"
 
     ctrlrtconversion "sigs.k8s.io/controller-runtime/pkg/conversion"
 )
