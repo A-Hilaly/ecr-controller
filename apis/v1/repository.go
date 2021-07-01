@@ -20,14 +20,10 @@ import (
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
-// RepositorySpec defines the desired state of Repository
 type RepositorySpec struct {
 	// The encryption configuration for the repository. This determines how the
 	// contents of your repository are encrypted at rest.
 	EncryptionConfiguration *EncryptionConfiguration `json:"encryptionConfiguration,omitempty"`
-	// The image scanning configuration for the repository. This determines whether
-	// images are scanned for known vulnerabilities after being pushed to the repository.
-	ImageScanningConfiguration *ImageScanningConfiguration `json:"imageScanningConfiguration,omitempty"`
 	// The tag mutability setting for the repository. If this parameter is omitted,
 	// the default setting of MUTABLE will be used which will allow image tags to
 	// be overwritten. If IMMUTABLE is specified, all image tags within the repository
@@ -38,6 +34,9 @@ type RepositorySpec struct {
 	// to group the repository into a category (such as project-a/nginx-web-app).
 	// +kubebuilder:validation:Required
 	Name *string `json:"name"`
+	// The image scanning configuration for the repository. This determines whether
+	// images are scanned for known vulnerabilities after being pushed to the repository.
+	ScanConfig *ImageScanningConfiguration `json:"scanConfig,omitempty"`
 	// The metadata that you apply to the repository to help you categorize and
 	// organize them. Each tag consists of a key and an optional value, both of
 	// which you define. Tag keys can have a maximum character length of 128 characters,
