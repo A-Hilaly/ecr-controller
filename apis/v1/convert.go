@@ -89,11 +89,11 @@ func (src *Repository) ConvertTo(dstRaw ctrlrtconversion.Hub) error {
 		dst.Spec.Tags = tagListCopy
 	}
 
-	dst.Spec.CreatedAt = src.Spec.CreatedAt
-	dst.Spec.RegistryID = src.Spec.RegistryID
-	dst.Spec.RepositoryURI = src.Spec.RepositoryURI
-	dst.Spec.ACKResourceMetadata = src.Spec.ACKResourceMetadata
-	dst.Spec.Conditions = src.Spec.Conditions
+	dst.Status.CreatedAt = src.Status.CreatedAt
+	dst.Status.RegistryID = src.Status.RegistryID
+	dst.Status.RepositoryURI = src.Status.RepositoryURI
+	dst.Status.ACKResourceMetadata = src.Status.ACKResourceMetadata
+	dst.Status.Conditions = src.Status.Conditions
 
 	dst.ObjectMeta = objectMetadataCopy
 	return nil
@@ -136,11 +136,11 @@ func (dst *Repository) ConvertFrom(srcRaw ctrlrtconversion.Hub) error {
 		dst.Spec.Tags = tagListCopy
 	}
 
-	dst.Spec.CreatedAt = src.Spec.CreatedAt
-	dst.Spec.RegistryID = src.Spec.RegistryID
-	dst.Spec.RepositoryURI = src.Spec.RepositoryURI
-	dst.Spec.ACKResourceMetadata = src.Spec.ACKResourceMetadata
-	dst.Spec.Conditions = src.Spec.Conditions
+	dst.Status.CreatedAt = src.Status.CreatedAt
+	dst.Status.RegistryID = src.Status.RegistryID
+	dst.Status.RepositoryURI = src.Status.RepositoryURI
+	dst.Status.ACKResourceMetadata = src.Status.ACKResourceMetadata
+	dst.Status.Conditions = src.Status.Conditions
 
 	dst.ObjectMeta = objectMetadataCopy
 	return nil
